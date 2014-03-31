@@ -1,0 +1,12 @@
+{
+  "name": "touchme",
+  "version": "0.0.0",
+  "main": "dist/touchme.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {}
+}
