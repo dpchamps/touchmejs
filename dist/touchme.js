@@ -25,12 +25,10 @@ if(typeof CustomEvent === 'undefined' || typeof CustomEvent === 'object'){
         }
 
         CEvent.prototype = root.Event.prototype;
-        console.log(CEvent);
+
         return CEvent;
     }());
 }
-
-console.log(CustomEvent);
 
 var touchme = function(args) {
     //`this` will be window in browser, and will contain ontouchstart if a mobile device
