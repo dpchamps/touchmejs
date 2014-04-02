@@ -2,7 +2,7 @@
 
 ## About
 
-A simple library that adds the following events for mobile / mouse support:
+A simple javascript library for adding touch events to your app, provides mouse fallback for greater ease.
 
 ## Usage
 
@@ -17,9 +17,9 @@ A simple library that adds the following events for mobile / mouse support:
 
 #### Instantiating
 
-    ```javascript
-    touchme(args); //returns true if on touch device, false otherwise
-    `
+```javascript
+touchme(args); //returns true if on touch device, false otherwise
+```
 
 ##### where args is an object to override default arguments, the defaults are as follows:
     {
