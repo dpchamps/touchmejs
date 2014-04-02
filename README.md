@@ -16,4 +16,4 @@ Using Bower:
 
 Or grab the [source](https://github.com/gasolinewaltz/touchme/dist/touchme.js) ([minified](https://github.com/gasolinewaltz/touchme/dist/touchme.min.js)).
 
-#Updates, demo, and usage coming soon!
+#Updates, demo, tests, and usage coming soon!

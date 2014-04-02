@@ -1,5 +1,9 @@
 /* touchme main */
 
+/*
+TODO add support for the 'swipeOnly' option, which keeps swipe events to the mouse.
+ */
+
 // Base function.
 var root = this;
 var document = this.document || {};
