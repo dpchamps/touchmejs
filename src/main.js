@@ -179,7 +179,8 @@ var touchme = function(args) {
         //if the user was holding something...
         if(isHolding){
             isHolding = false;
-            triggerEvent(holdElement.target, 'holdRelease', {
+            triggerEvent(holdElement.target, 'holdrelease', {
+                holdElement: holdElement,
                 originalX: originalX,
                 originalY: originalY
             });
