@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Touchmejs : Simple touch events with the option to fall back on to mouse events." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Touchmejs</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/gasolinewaltz/TouchMeJS">View on GitHub</a>
+
+          <h1 id="project_title">Touchmejs</h1>
+          <h2 id="project_tagline">Simple touch events with the option to fall back on to mouse events.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/gasolinewaltz/TouchMeJS/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/gasolinewaltz/TouchMeJS/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="touchmejs" class="anchor" href="#touchmejs"><span class="octicon octicon-link"></span></a>touchmeJS</h1>
+
+<h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>A simple javascript library for adding touch events to your app, provides mouse fallback for greater ease.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h4>
+<a name="in-the-browser" class="anchor" href="#in-the-browser"><span class="octicon octicon-link"></span></a>In the Browser:</h4>
+
+<pre><code>&lt;script src='touchme.js'&gt;&lt;/script&gt;`
+</code></pre>
+
+<h4>
+<a name="commonjs" class="anchor" href="#commonjs"><span class="octicon octicon-link"></span></a>CommonJS</h4>
+
+<pre><code>require('/touchme');`
+</code></pre>
+
+<h4>
+<a name="instantiating" class="anchor" href="#instantiating"><span class="octicon octicon-link"></span></a>Instantiating</h4>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">touchme</span><span class="p">(</span><span class="nx">args</span><span class="p">);</span> <span class="c1">//returns true if on touch device, false otherwise</span>
+</pre></div>
+
+<h5>
+<a name="where-args-is-an-object-to-override-default-arguments-the-defaults-are-as-follows" class="anchor" href="#where-args-is-an-object-to-override-default-arguments-the-defaults-are-as-follows"><span class="octicon octicon-link"></span></a>where args is an object to override default arguments, the defaults are as follows:</h5>
+
+<pre><code>{
+    swipeThreshold: 80,    //the minimun distance required for a 'swipe' event to fire
+    tapThreshold: 200,     //the time in milleseconds to wait for a dbltap
+    holdThreshold: 550,    //the time in milliseconds required for a 'hold' event to fire
+    precision: 45,         //the boundary for all tap events
+    onlyTouch: false,      //when set to true, events only fire on touch device
+    swipeOnlyTouch: false, //when set to true, swipe events only fire on touch device,
+    nTap: false            //still experimental, if the users clicks &gt;=3 taps within tap threshold, nTap is fired containing how many taps occured.
+}
+</code></pre>
+
+<hr><h3>
+<a name="tap" class="anchor" href="#tap"><span class="octicon octicon-link"></span></a>tap</h3>
+
+<ul>
+<li>el.addEventListener('tap', doSomething(data));
+
+<ul>
+<li>data contents:
+
+<ul>
+<li>
+<code>.x</code>, <code>.y</code> - position where event occurred</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3>
+<a name="dbltap" class="anchor" href="#dbltap"><span class="octicon octicon-link"></span></a>dbltap</h3>
+
+<ul>
+<li>el.addEventListener('dbltap', doSomething(data));
+
+<ul>
+<li>data contents:
+
+<ul>
+<li>
+<code>.x</code>, <code>.y</code> - position where event occurred</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3>
+<a name="swiperight" class="anchor" href="#swiperight"><span class="octicon octicon-link"></span></a>swiperight</h3>
+
+<ul>
+<li>el.addEventListener('swiperight', doSomething(data));
+
+<ul>
+<li>data contents:
+
+<ul>
+<li>
+<code>.x</code>, <code>.y</code> - position where event occurred</li>
+<li>
+<code>.direction.radians</code>, <code>.direction.degrees</code> - direction in radians or degrees</li>
+<li>
+<code>.distance.x</code>, <code>.distance.y</code> - distance in pixels</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3>
+<a name="swipeleft" class="anchor" href="#swipeleft"><span class="octicon octicon-link"></span></a>swipeleft</h3>
+
+<ul>
+<li>el.addEventListener('swipeleft', doSomething(data));
+
+<ul>
+<li>data contents:
+
+<ul>
+<li>
+<code>.x</code>, <code>.y</code> - position where event occurred</li>
+<li>
+<code>.direction.radians</code>, <code>.direction.degrees</code> - direction in radians or degrees</li>
+<li>
+<code>.distance.x</code>, <code>.distance.y</code> - distance in pixels</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3>
+<a name="swipeup" class="anchor" href="#swipeup"><span class="octicon octicon-link"></span></a>swipeup</h3>
+
+<ul>
+<li>el.addEventListener('swipeup', doSomething(data));
+
+<ul>
+<li>data contents:
+
+<ul>
+<li>
+<code>.x</code>, <code>.y</code> - position where event occurred</li>
+<li>
+<code>.direction.radians</code>, <code>.direction.degrees</code> - direction in radians or degrees</li>
+<li>
+<code>.distance.x</code>, <code>.distance.y</code> - distance in pixels</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3>
+<a name="swipedown" class="anchor" href="#swipedown"><span class="octicon octicon-link"></span></a>swipedown</h3>
+
+<ul>
+<li>el.addEventListener('swipedown', doSomething(data));
+
+<ul>
+<li>data contents:
+
+<ul>
+<li>
+<code>.x</code>, <code>.y</code> - position where event occurred</li>
+<li>
+<code>.direction.radians</code>, <code>.direction.degrees</code> - direction in radians or degrees</li>
+<li>
+<code>.distance.x</code>, <code>.distance.y</code> - distance in pixels</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3>
+<a name="hold" class="anchor" href="#hold"><span class="octicon octicon-link"></span></a>hold</h3>
+
+<ul>
+<li>el.addEventListener('hold', doSomething(data));
+
+<ul>
+<li>data contents:
+
+<ul>
+<li>
+<code>.x</code>, <code>.y</code> - position where event occurred</li>
+<li>
+<code>.holdElement</code> - the element that's being held.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3>
+<a name="holdrelease" class="anchor" href="#holdrelease"><span class="octicon octicon-link"></span></a>holdrelease</h3>
+
+<ul>
+<li>el.addEventListener('holdrelease', doSomething(data));
+
+<ul>
+<li>data contents:
+
+<ul>
+<li>
+<code>.x</code>, <code>.y</code> - position where event occurred</li>
+<li>
+<code>.holdElement</code> - the element that's being released.</li>
+<li>
+<code>.originalX</code>, <code>.originalY</code> the original coordinates of the element being released.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2>
+<a name="coming-soon" class="anchor" href="#coming-soon"><span class="octicon octicon-link"></span></a>Coming soon</h2>
+
+<h3>
+<a name="amd-support" class="anchor" href="#amd-support"><span class="octicon octicon-link"></span></a>AMD support?</h3>
+
+<h3>
+<a name="tests" class="anchor" href="#tests"><span class="octicon octicon-link"></span></a>tests</h3>
+
+<h3>
+<a name="cleaned-up-file-structure" class="anchor" href="#cleaned-up-file-structure"><span class="octicon octicon-link"></span></a>cleaned up file structure</h3>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Touchmejs maintained by <a href="https://github.com/gasolinewaltz">gasolinewaltz</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
