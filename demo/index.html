@@ -5,31 +5,109 @@
     <link rel="stylesheet" href="./assets/normalize.css" />
     <link rel="stylesheet" href="./assets/main.css" />
     <style>
-      /* begin demo embedded styles */
+        html, body{
+            margin: 0;
+            padding: 0;
+            background: #2b81af;
 
-      /* end demo embedded styles */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .center{
+            width:80%;
+            min-width: 200px;
+            margin: 0 auto;
+        }
+        ul li{
+            list-style: none;
+            font-size: 2em;
+            font-family: sans-serif;
+        }
+        ul li span{
+            font-weight: bold;
+        }
     </style>
   </head>
   <body>
-    <h1>touchme demo</h1>
+    <div class="center">
+        <h1>Touch / Click Anywhere</h1>
 
-    <!-- begin demo markup -->
+        <ul>
+            <li>tap: <span id="tap"></span></li>
+            <li>double tap: <span id="dbltap"></span></li>
+            <li>swipe: <span id="swipe"></span></li>
+            <li>hold: <span id="hold"></span></li>
+            <li>hold release: <span id="hold-release"></span></li>
+        </ul>
 
-    <!-- end demo markup -->
-
-    <p>See the <a href="http://gasolinewaltz.github.io/touchme">project homepage</a>.
-    <p>Check out the <a href="https://github.com/gasolinewaltz/touchme">project repo</a>.
-    <p>Copyright 2014 David Campion</p>
-
+    </div>
     <script src="./../dist/touchme.js"></script>
 
     <script>
-      /* begin demo script */
 
-      var n = touchme();
-      console.log(n);
+        //default args
+        var touch = touchme();
+        var swipeCounter;
+        function updateSwipeCounter(){
+            clearTimeout(swipeCounter);
+            swipeCounter = setTimeout(function(){
+                setHtml('swipe', '');
+            }, 400);
+        }
+        function setHtml(id, text){
+            var el = document.getElementById(id);
 
-      /* end demo script */
+            el.innerHTML = text;
+        }
+        function addHtml(id, text){
+            var el = document.getElementById(id);
+            el.innerHTML += text + " ";
+        }
+
+        document.addEventListener('tap', function(e){
+
+            setHtml('tap', 'true');
+            setTimeout(function(){
+                setHtml('tap', 'false');
+            }, 250);
+        });
+        document.addEventListener('dbltap', function(e){
+            setHtml('dbltap', 'true');
+            setTimeout(function(){
+                setHtml('dbltap', 'false');
+            }, 250);
+        });
+        document.addEventListener('swiperight', function(e){
+            addHtml('swipe', 'swiperight');
+            updateSwipeCounter();
+        });
+        document.addEventListener('swipeleft', function(e){
+            addHtml('swipe', 'swipeleft');
+            updateSwipeCounter();
+        });
+        document.addEventListener('swipeup', function(e){
+            addHtml('swipe', 'swipeup');
+            updateSwipeCounter();
+        });
+        document.addEventListener('swipedown', function(e){
+            addHtml('swipe', 'swipedown');
+            updateSwipeCounter();
+        });
+        document.addEventListener('hold', function(e){
+            setHtml('hold', 'holding');
+        });
+        document.addEventListener('holdRelease', function(e){
+            setHtml('hold-release', 'hold released, dropped');
+            setHtml('hold', '');
+            setTimeout(function(){
+                setHtml('hold-release', '');
+            }, 250);
+        });
+
     </script>
   </body>
 </html>

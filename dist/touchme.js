@@ -5,6 +5,10 @@
 
 /* touchme main */
 
+/*
+TODO add support for the 'swipeOnly' option, which keeps swipe events to the mouse.
+ */
+
 // Base function.
 var root = this;
 var document = this.document || {};
@@ -26,19 +30,17 @@ var CustomEvent = this.CustomEvent || function(){
 
 var touchme = function(args) {
     //`this` will be window in browser, and will contain ontouchstart if a mobile device
-    var touchDevice = ('ontouchstart' in this);
+    var touchDevice = ('ontouchstart' in root);
 
-    //self explanitory...
+    //self explanatory...
     var
         touchStart = false,
         tapNumber = 0,
-        tapTimer,
-        holdTimer,
+        tapTimer, holdTimer,
         currentX, currentY,
         oldX, oldY,
         holdElement, isHolding,
         originalX, originalY; //for elements that are being held
-
 
     //where args is an object that can replace any of the default arguments
     var defaults = {
@@ -51,6 +53,7 @@ var touchme = function(args) {
         nTap: false
     };
     //replace any object that belongs in the defaults
+    //TODO: a prettier way to write this?
     if(args){
         for(var key in args){
             if (args.hasOwnProperty(key) && defaults.hasOwnProperty(key)) {
@@ -58,26 +61,7 @@ var touchme = function(args) {
             }
         }
     }
-
-    //returns the node being touched/clicked
-    var getPointer = function(event){
-
-        if(event.targetTouches){
-            return event.targetTouches[0];
-        }else{
-            return event;
-        }
-    };
-
-    //add event (s) to a given element
-    var setListener = function(element, evt, callback){
-        var evtArr = evt.split(' ');
-        var i = evtArr.length;
-        while(i--){
-            element.addEventListener(evtArr[i], callback, false);
-        }
-    };
-
+    //reused for tap and hold.
     var isInTapLimits = function(){
         return(
             currentX >= oldX-defaults.precision &&
@@ -86,7 +70,27 @@ var touchme = function(args) {
             currentY <= oldY+defaults.precision
             );
     };
-
+    //add event (s) to a given element
+    var setListener = function(element, evt, callback){
+        var evtArr = evt.split(' ');
+        var i = evtArr.length;
+        while(i--){
+            element.addEventListener(evtArr[i], callback, false);
+        }
+    };
+    //returns the node being touched/clicked
+    var getPointer = function(event){
+        if(event.targetTouches){
+            return event.targetTouches[0];
+        }else{
+            return event;
+        }
+    };
+    /*
+        triggerEvent()
+            creates a custom event, and passes any members in the data object to the event
+            triggers the custom event on the given element.
+     */
     var triggerEvent = function(element, eventName, data){
         data = data || {
             x: currentX,
@@ -104,7 +108,6 @@ var touchme = function(args) {
                 newEvent[key] = data[key];
             }
         }
-
         element.dispatchEvent(newEvent);
     };
 
@@ -113,7 +116,7 @@ var touchme = function(args) {
         touchDevice = true;
     }
 
-    //tap, dbltap, ntap
+    //tap, dbltap, ntap, hold
     setListener(document, touchDevice ? 'touchstart' : 'mousedown', function(e){
         touchStart = true;
         tapNumber += 1;
@@ -137,6 +140,8 @@ var touchme = function(args) {
                 });
 
                 tapNumber = 0;
+            }else if( !isInTapLimits() ){
+                tapNumber = 0;
             }
         }, defaults.tapThreshold);
 
@@ -151,15 +156,13 @@ var touchme = function(args) {
                 originalX = holdElement.pageX;
                 originalY = holdElement.pageY;
 
-                triggerEvent(holdElement, 'hold', {
+                triggerEvent(holdElement.target, 'hold', {
                     //having a difficult time deciding actually how to deal with this at the moment
                     holdElement: holdElement
                 });
                 tapNumber = 0;
             }
         }, defaults.holdThreshold);
-
-
     });
 
     //track the movement 
@@ -167,14 +170,32 @@ var touchme = function(args) {
         var pointer = getPointer(e);
         currentX = pointer.pageX;
         currentY = pointer.pageY;
-
-        //do we need to update hold information here too? I don't think so...
     });
-    
-    //swipe, directional swipe, hold
-    setListener(document, touchDevice ? 'touchend' : 'mouseup', function(e){
+
+    /*
+        create two seperate listeners for touchend and mouseup.
+
+        the first is generic, it sets touch start to false and checks to see if the user was holding something
+        the second is swipe specific, to check if the default 'swipeOnlyTouch' is set
+     */
+    setListener(document, touchDevice ? 'touchend' : 'mouseup', function(){
         touchStart = false;
-        
+
+        //if the user was holding something...
+        if(isHolding){
+            isHolding = false;
+            triggerEvent(holdElement.target, 'holdRelease', {
+                originalX: originalX,
+                originalY: originalY
+            });
+        }
+    });
+    //swipe specific
+    var swipeEventName = touchDevice ? 'touchend' : 'mouseup';
+    swipeEventName = defaults.swipeOnlyTouch ? 'touchend' : swipeEventName;
+    setListener(document, swipeEventName, function(e){
+        touchStart = false;
+
         var
             swipeEvents = [],
             deltaX = oldX - currentX,
@@ -203,7 +224,7 @@ var touchme = function(args) {
         if( deltaY <= -defaults.swipeThreshold ){
             swipeEvents.push('swipedown');
         }
-        
+
         var i = swipeEvents.length;
         while(i--){
             triggerEvent(e.target, swipeEvents[i], {
@@ -217,25 +238,20 @@ var touchme = function(args) {
                 }
             });
         }
-
-        //if the user was holding something...
-        if(isHolding){
-            isHolding = false;
-            triggerEvent(holdElement, 'holdRelease', {
-                originalX: originalX,
-                originalY: originalY
-            });
-        }
     });
+
     return touchDevice;
 };
 
 
 
 // Export to the root, which is probably `window`.
-if(module !== undefined && module.exports){
-    module.exports = touchme;
-}else{
+if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+        exports = module.exports = touchme;
+    }
+    exports.touchme = touchme;
+} else {
     root.touchme = touchme;
 }
 
