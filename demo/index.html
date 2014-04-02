@@ -48,7 +48,15 @@
     <script src="./../dist/touchme.js"></script>
 
     <script>
-
+        document.addEventListener('touchstart', function(e){
+            e.preventDefault();
+        });
+        document.addEventListener('touchend', function(e){
+            e.preventDefault();
+        });
+        document.addEventListener('touchmove', function(e){
+            e.preventDefault();
+        });
         //default args
         var touch = touchme();
         var swipeCounter;
@@ -100,7 +108,7 @@
         document.addEventListener('hold', function(e){
             setHtml('hold', 'holding');
         });
-        document.addEventListener('holdRelease', function(e){
+        document.addEventListener('holdrelease', function(e){
             setHtml('hold-release', 'hold released, dropped');
             setHtml('hold', '');
             setTimeout(function(){

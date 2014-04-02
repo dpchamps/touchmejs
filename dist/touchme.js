@@ -5,28 +5,32 @@
 
 /* touchme main */
 
-/*
-TODO add support for the 'swipeOnly' option, which keeps swipe events to the mouse.
- */
+
 
 // Base function.
 var root = this;
 var document = this.document || {};
 
 //native custom event or polyfill
-var CustomEvent = this.CustomEvent || function(){
-    var CustomEvent = function ( event, params ) {
-        params = params || { bubbles: false, cancelable: false, detail: undefined };
-        var evt = document.createEvent( 'CustomEvent' );
-        evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-        return evt;
-    };
 
-    CustomEvent.prototype = this.Event.prototype;
+var CustomEvent = this.CustomEvent;
+if(typeof CustomEvent === 'undefined' || typeof CustomEvent === 'object'){
+    CustomEvent = (function(){
 
-    this.CustomEvent = CustomEvent;
-};
+        function CEvent( event, params ) {
+            params = params || { bubbles: false, cancelable: false, detail: undefined };
+            var evt = document.createEvent( 'CustomEvent' );
+            evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+            return evt;
+        }
 
+        CEvent.prototype = root.Event.prototype;
+        console.log(CEvent);
+        return CEvent;
+    }());
+}
+
+console.log(CustomEvent);
 
 var touchme = function(args) {
     //`this` will be window in browser, and will contain ontouchstart if a mobile device
@@ -184,7 +188,8 @@ var touchme = function(args) {
         //if the user was holding something...
         if(isHolding){
             isHolding = false;
-            triggerEvent(holdElement.target, 'holdRelease', {
+            triggerEvent(holdElement.target, 'holdrelease', {
+                holdElement: holdElement,
                 originalX: originalX,
                 originalY: originalY
             });
