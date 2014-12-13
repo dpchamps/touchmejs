@@ -138,7 +138,9 @@ var touchme = function(args) {
                 var tapEventName = tapNumber>=2 ? 'dbltap' : 'tap';
                 if(defaults.ntap) { tapEventName = tapNumber>=3 ? 'ntap' : tapEventName;}
                 triggerEvent(e.target, tapEventName, {
-                    taps: tapNumber //use case for ntap
+                    taps: tapNumber, //use case for ntap
+                    x : oldX,
+                    y : oldY
                 });
 
                 tapNumber = 0;
