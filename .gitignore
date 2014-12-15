@@ -6,6 +6,8 @@ logs/
 log/
 results/
 
+.idea/
+
 *.seed
 *.log
 *.csv
