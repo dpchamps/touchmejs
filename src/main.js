@@ -77,7 +77,6 @@ var touchme = function(args) {
                     continue;
                 }
             }
-            console.log("adding event: ", evtArr[i]);
             element.addEventListener(evtArr[i], callback, false);
         }
     };

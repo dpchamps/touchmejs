@@ -8,8 +8,10 @@
         html, body{
             margin: 0;
             padding: 0;
+            border: 0;
             background: #2b81af;
-
+            height: 100%;
+            width:100%;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
@@ -17,10 +19,23 @@
             -ms-user-select: none;
             user-select: none;
         }
-        .center{
-            width:80%;
-            min-width: 200px;
-            margin: 0 auto;
+        .absolute-center {
+            height: 50%; /* Set your own height: percents, ems, whatever! */
+            width: 50%; /* Set your own width: percents, ems, whatever! */
+            overflow: auto; /* Recommended in case content is larger than the container */
+            margin: auto; /* Center the item vertically & horizontally */
+            position: absolute; /* Break it out of the regular flow */
+            top: 0; left: 0; bottom: 0; right: 0; /* Set the bounds in which to center it, relative to its parent/container */
+        }
+        #screen{
+            -webkit-transition: all 150ms ease-out;
+            -moz-transition: all 150ms ease-out;
+            -ms-transition: all 150ms ease-out;
+            -o-transition: all 150ms ease-out;
+            transition: all 1s ease-out;
+        }
+        .fade{
+            opacity: .4;
         }
         ul li{
             list-style: none;
@@ -33,7 +48,7 @@
     </style>
   </head>
   <body>
-    <div class="center">
+    <div id="screen" class="absolute-center">
         <h1>Touch / Click Anywhere</h1>
 
         <ul>
@@ -80,13 +95,13 @@
 
             setHtml('tap', 'true');
             setTimeout(function(){
-                setHtml('tap', 'false');
+                setHtml('tap', '');
             }, 250);
         });
         document.addEventListener('dbltap', function(e){
             setHtml('dbltap', 'true');
             setTimeout(function(){
-                setHtml('dbltap', 'false');
+                setHtml('dbltap', '');
             }, 250);
         });
         document.addEventListener('swiperight', function(e){
@@ -115,7 +130,9 @@
                 setHtml('hold-release', '');
             }, 250);
         });
-
+        window.addEventListener('load', function(){
+            document.getElementById('screen').className += ' fade';
+        })
     </script>
   </body>
 </html>
