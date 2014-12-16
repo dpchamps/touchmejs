@@ -46,10 +46,11 @@ var touchme = function(args) {
     //where args is an object that can replace any of the default arguments
     var defaults = {
         swipeThreshold: 80,
-        tapThreshold: 200,
+        tapThreshold: 150,
         holdThreshold: 550,
         precision: 45,
         onlyTouch: false,
+        onlyTap : false,
         swipeOnlyTouch: false,
         nTap: false
     };
@@ -82,7 +83,6 @@ var touchme = function(args) {
                     continue;
                 }
             }
-            console.log("adding event: ", evtArr[i]);
             element.addEventListener(evtArr[i], callback, false);
         }
     };
@@ -136,43 +136,55 @@ var touchme = function(args) {
 
         //initialize tapTimer
         clearTimeout(tapTimer);
-        tapTimer = setTimeout(function(){
-            if( isInTapLimits() && !touchStart ){
-                //dense code
-                //  first check if it's a double tap. Anything over 2 taps considered a double tap
-                //  then, check if ntap is enabled, if so and more than 3 taps occcured, trigger ntap.
-                var tapEventName = tapNumber>=2 ? 'dbltap' : 'tap';
-                if(defaults.ntap) { tapEventName = tapNumber>=3 ? 'ntap' : tapEventName;}
-                triggerEvent(e.target, tapEventName, {
-                    taps: tapNumber, //use case for ntap,
-                    x : currentX,
-                    y : currentY
-                });
 
-                tapNumber = 0;
-            }else if( !isInTapLimits() ){
-                tapNumber = 0;
-            }
-        }, defaults.tapThreshold);
+        if(defaults.onlyTap){
+            triggerEvent(e.target, 'tap', {
+                taps: tapNumber, //use case for ntap,
+                x : currentX,
+                y : currentY
+            });
+        }else{
+            tapTimer = setTimeout(function(){
+                if( isInTapLimits() && !touchStart ){
+                    //dense code
+                    //  first check if it's a double tap. Anything over 2 taps considered a double tap
+                    //  then, check if ntap is enabled, if so and more than 3 taps occcured, trigger ntap.
+                    var tapEventName = tapNumber>=2 ? 'dbltap' : 'tap';
 
-        //initialize holdTimer
-        clearTimeout(holdTimer);
-        holdTimer = setTimeout(function(){
-            if( isInTapLimits() && touchStart){
-                //user is within the tap region and is still after hold threshold
-                isHolding = true;
-                //we'll reference this when the user let's go
-                holdElement = e;
-                originalX = holdElement.pageX;
-                originalY = holdElement.pageY;
+                    if(defaults.ntap) { tapEventName = tapNumber>=3 ? 'ntap' : tapEventName;}
 
-                triggerEvent(holdElement.target, 'hold', {
-                    //having a difficult time deciding actually how to deal with this at the moment
-                    holdElement: holdElement
-                });
-                tapNumber = 0;
-            }
-        }, defaults.holdThreshold);
+                    triggerEvent(e.target, tapEventName, {
+                        taps: tapNumber, //use case for ntap,
+                        x : currentX,
+                        y : currentY
+                    });
+
+                    tapNumber = 0;
+                }else if( !isInTapLimits() ){
+                    tapNumber = 0;
+                }
+            }, defaults.tapThreshold);
+
+            //initialize holdTimer
+            clearTimeout(holdTimer);
+            holdTimer = setTimeout(function(){
+                if( isInTapLimits() && touchStart){
+                    //user is within the tap region and is still after hold threshold
+                    isHolding = true;
+                    //we'll reference this when the user let's go
+                    holdElement = e;
+                    originalX = holdElement.pageX;
+                    originalY = holdElement.pageY;
+
+                    triggerEvent(holdElement.target, 'hold', {
+                        //having a difficult time deciding actually how to deal with this at the moment
+                        holdElement: holdElement
+                    });
+                    tapNumber = 0;
+                }
+            }, defaults.holdThreshold);
+        }
+
     });
 
     //track the movement 
