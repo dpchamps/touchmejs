@@ -7,11 +7,10 @@ var root = this;
 var document = this.document || {};
 
 //native custom event or polyfill
-
 var CustomEvent = this.CustomEvent;
 if(typeof CustomEvent === 'undefined' || typeof CustomEvent === 'object'){
+    //https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent#Polyfill
     CustomEvent = (function(){
-
         function CEvent( event, params ) {
             params = params || { bubbles: false, cancelable: false, detail: undefined };
             var evt = document.createEvent( 'CustomEvent' );
@@ -69,6 +68,10 @@ var touchme = function(args) {
     };
     //add event (s) to a given element
     var setListener = function(element, evt, callback){
+        /*
+        if onlyTouch is false, we need to add the corresponding mouse event
+         */
+
         var evtArr = evt.split(' ');
         var i = evtArr.length;
         while(i--){
@@ -114,7 +117,7 @@ var touchme = function(args) {
     }
 
     //tap, dbltap, ntap, hold
-    setListener(document, touchDevice ? 'touchstart' : 'mousedown', function(e){
+    setListener(document, touchDevice ? 'touchstart mousedown' : 'mousedown', function(e){
         touchStart = true;
         tapNumber += 1;
 
@@ -165,7 +168,7 @@ var touchme = function(args) {
     });
 
     //track the movement 
-    setListener(document, touchDevice ? 'touchmove' : 'mousemove', function(e){
+    setListener(document, touchDevice ? 'touchmove mousemove' : 'mousemove', function(e){
         var pointer = getPointer(e);
         currentX = pointer.pageX;
         currentY = pointer.pageY;
@@ -177,7 +180,7 @@ var touchme = function(args) {
         the first is generic, it sets touch start to false and checks to see if the user was holding something
         the second is swipe specific, to check if the default 'swipeOnlyTouch' is set
      */
-    setListener(document, touchDevice ? 'touchend' : 'mouseup', function(){
+    setListener(document, touchDevice ? 'touchend mouseup' : 'mouseup', function(){
         touchStart = false;
 
         //if the user was holding something...
@@ -191,7 +194,7 @@ var touchme = function(args) {
         }
     });
     //swipe specific
-    var swipeEventName = touchDevice ? 'touchend' : 'mouseup';
+    var swipeEventName = touchDevice ? 'touchend mouseup' : 'mouseup';
     swipeEventName = defaults.swipeOnlyTouch ? 'touchend' : swipeEventName;
     setListener(document, swipeEventName, function(e){
         touchStart = false;
