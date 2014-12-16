@@ -120,7 +120,7 @@ var touchme = function(args) {
     }
 
     //tap, dbltap, ntap, hold
-    setListener(document, touchDevice ? 'touchstart mousedown' : 'mousedown', function(e){
+    setListener(document, touchDevice ? 'mousedown touchstart' : 'mousedown', function(e){
         touchStart = true;
         tapNumber += 1;
 
@@ -171,7 +171,7 @@ var touchme = function(args) {
     });
 
     //track the movement 
-    setListener(document, touchDevice ? 'touchmove mousemove' : 'mousemove', function(e){
+    setListener(document, touchDevice ? 'mousemove touchmove' : 'mousemove', function(e){
         var pointer = getPointer(e);
         currentX = pointer.pageX;
         currentY = pointer.pageY;
@@ -183,7 +183,7 @@ var touchme = function(args) {
         the first is generic, it sets touch start to false and checks to see if the user was holding something
         the second is swipe specific, to check if the default 'swipeOnlyTouch' is set
      */
-    setListener(document, touchDevice ? 'touchend mouseup' : 'mouseup', function(){
+    setListener(document, touchDevice ? 'mouseup touchend' : 'mouseup', function(){
         touchStart = false;
 
         //if the user was holding something...
@@ -197,7 +197,7 @@ var touchme = function(args) {
         }
     });
     //swipe specific
-    var swipeEventName = touchDevice ? 'touchend mouseup' : 'mouseup';
+    var swipeEventName = touchDevice ? 'mouseup touchend' : 'mouseup';
     swipeEventName = defaults.swipeOnlyTouch ? 'touchend' : swipeEventName;
     setListener(document, swipeEventName, function(e){
         touchStart = false;
