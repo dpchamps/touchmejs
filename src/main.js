@@ -68,13 +68,15 @@ var touchme = function(args) {
     };
     //add event (s) to a given element
     var setListener = function(element, evt, callback){
-        /*
-        if onlyTouch is false, we need to add the corresponding mouse event
-         */
-
         var evtArr = evt.split(' ');
         var i = evtArr.length;
         while(i--){
+            //if the onlyTouch flag is set, don't add mouse events
+            if(defaults.onlyTouch){
+                if(evtArr[i].match(/mouse/)){
+                    continue;
+                }
+            }
             element.addEventListener(evtArr[i], callback, false);
         }
     };
