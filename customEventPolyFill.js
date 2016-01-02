@@ -4,7 +4,6 @@
  * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent#Polyfill
  */
 var CustomEventPolyFill = function () {
-    console.log("!polyfill!");
     function CustomEvent ( event, params ) {
         params = params || { bubbles: false, cancelable: false, detail: undefined };
         var evt = document.createEvent( 'CustomEvent' );

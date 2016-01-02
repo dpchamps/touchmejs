@@ -32,7 +32,7 @@ if(typeof CustomEvent === 'undefined' || typeof CustomEvent === 'object'){
 var touchme = function(args) {
     //`this` will be window in browser, and will contain ontouchstart if a mobile device
     var touchDevice = ('ontouchstart' in root);
-
+    console.log("test");
     //self explanatory...
     var
         touchStart = false,
@@ -187,7 +187,7 @@ var touchme = function(args) {
 
     });
 
-    //track the movement 
+    //track the movement
     setListener(document, touchDevice ? 'mousemove touchmove' : 'mousemove', function(e){
         var pointer = getPointer(e);
         currentX = pointer.pageX;
@@ -227,13 +227,13 @@ var touchme = function(args) {
         //calculate radians for direction
         var rads = Math.atan2(currentY-oldY, currentX-oldX);
         if(rads<0){rads+= Math.PI*2;}
-        
+
         //the user is swiping...
-        //why do we need this? 
+        //why do we need this?
         if(deltaX <= defaults.swipeThreshold || deltaY <= defaults.swipeThreshold){
             swipeEvents.push('swipe');
         }
-        
+
         //directional swipes
         if( deltaX <= -defaults.swipeThreshold ){
             swipeEvents.push('swiperight');
@@ -280,5 +280,6 @@ if (typeof exports !== 'undefined') {
 
 // Version.
 touchme.VERSION = '0.1.0';
+
 
 }).call(this);

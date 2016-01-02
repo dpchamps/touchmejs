@@ -94,7 +94,3 @@ ___
 
 
 ##Coming soon
-
-### AMD support?
-### tests
-### cleaned up file structure
