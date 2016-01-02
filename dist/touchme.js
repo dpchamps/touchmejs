@@ -181,11 +181,10 @@ var touchme = function(args) {
                     originalX = holdElement.pageX;
                     originalY = holdElement.pageY;
 
-
                     triggerEvent(holdElement.target, 'hold', {
                         holdElement: holdElement,
-                        x: lastX,
-                        y: lastY
+                        x: currentX,
+                        y: currentY
                     });
                     tapNumber = 0;
                 }
@@ -194,14 +193,17 @@ var touchme = function(args) {
 
     });
 
-    //track the movement
+    //track the movement / drag
     setListener(document, touchDevice ? 'mousemove touchmove' : 'mousemove', function(e){
         var pointer = getPointer(e);
         currentX = pointer.pageX;
         currentY = pointer.pageY;
         //is the user is holding an item, it's being dragged
         if(isHolding){
-          //we'll come back here
+          triggerEvent(holdElement.target, 'drag', {
+            x: currentX,
+            y: currentY
+          })
         }
     });
 

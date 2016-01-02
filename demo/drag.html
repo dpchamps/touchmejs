@@ -2,9 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Drag and Drop</title>
+    <link rel="stylesheet" href="./assets/normalize.css" />
+    <link rel="stylesheet" href="./assets/main.css" />
 </head>
 <body>
-
+  <span id="dragbox"></span>
 </body>
+<script src="./../dist/touchme.js"></script>
+<script>
+  document.addEventListener('touchstart', function(e){
+    e.preventDefault();
+  });
+  document.addEventListener('touchend', function(e){
+    e.preventDefault();
+  });
+  document.addEventListener('touchmove', function(e){
+    e.preventDefault();
+  });
+  //default args
+  var touch = touchme({
+    'holdThreshold' : 100
+  });
+  var dragBox = document.getElementById('dragbox');
+  dragBox.addEventListener('hold', function(e){
+    dragBox.classList.add('holding')
+  });
+  dragBox.addEventListener('drag', function(e){
+    var rect = dragBox.getBoundingClientRect(),
+        cY = e.y - rect.height/ 2,
+        cX = e.x - rect.width/2;
+
+    dragBox.style.top = cY+"px";
+    dragBox.style.left = cX+"px";
+  });
+  dragBox.addEventListener('holdrelease', function(e){
+    dragBox.classList.remove('holding');
+  });
+</script>
 </html>
