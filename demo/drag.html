@@ -27,6 +27,7 @@
   var dragBox = document.getElementById('dragbox');
   dragBox.addEventListener('hold', function(e){
     dragBox.classList.add('holding')
+    console.log(e);
   });
   dragBox.addEventListener('drag', function(e){
     var rect = dragBox.getBoundingClientRect(),

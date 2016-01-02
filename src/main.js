@@ -177,7 +177,6 @@ var touchme = function(args) {
                     originalY = holdElement.pageY;
 
                     triggerEvent(holdElement.target, 'hold', {
-                        holdElement: holdElement,
                         x: currentX,
                         y: currentY
                     });
@@ -214,8 +213,8 @@ var touchme = function(args) {
         //if the user was holding something...
         if(isHolding){
             isHolding = false;
+            clearInterval(holdInterval);
             triggerEvent(holdElement.target, 'holdrelease', {
-                holdElement: holdElement,
                 originalX: originalX,
                 originalY: originalY,
                 lastX: lastX,

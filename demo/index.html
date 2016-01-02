@@ -109,6 +109,7 @@
             updateSwipeCounter();
         });
         document.addEventListener('swipeleft', function(e){
+            console.log(e.direction);
             addHtml('swipe', 'swipeleft');
             updateSwipeCounter();
         });

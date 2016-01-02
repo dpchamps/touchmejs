@@ -33,61 +33,57 @@ touchme(args); //returns true if on touch device, false otherwise
     }
 ___
 
-### tap
 
-+ el.addEventListener('tap', doSomething(data));
-   + data contents:
-      + `.x`, `.y` - position where event occurred
+## All events are called in the following manner:
 
-### dbltap
+```javascript
+el.addEventListener(evtName, function(data){});
+```
+####where evtName is one of the following events:
 
-+ el.addEventListener('dbltap', doSomething(data));
-   + data contents:
-      + `.x`, `.y` - position where event occurred
+### tap, dbltap
+```javascript
+data : {
+  x: x-position of tap,
+  y: y-position of tap
+}
+```
 
-### swiperight
-
-+ el.addEventListener('swiperight', doSomething(data));
-   + data contents:
-      + `.x`, `.y` - position where event occurred
-      + `.direction.radians`, `.direction.degrees` - direction in radians or degrees
-      + `.distance.x`, `.distance.y` - distance in pixels
-
-### swipeleft
-
-+ el.addEventListener('swipeleft', doSomething(data));
-   + data contents:
-      + `.x`, `.y` - position where event occurred
-      + `.direction.radians`, `.direction.degrees` - direction in radians or degrees
-      + `.distance.x`, `.distance.y` - distance in pixels
-
-### swipeup
-
-+ el.addEventListener('swipeup', doSomething(data));
-   + data contents:
-      + `.x`, `.y` - position where event occurred
-      + `.direction.radians`, `.direction.degrees` - direction in radians or degrees
-      + `.distance.x`, `.distance.y` - distance in pixels
-
-### swipedown
-
-+ el.addEventListener('swipedown', doSomething(data));
-   + data contents:
-      + `.x`, `.y` - position where event occurred
-      + `.direction.radians`, `.direction.degrees` - direction in radians or degrees
-      + `.distance.x`, `.distance.y` - distance in pixels
+### swipeup, swiperight, swipedown, swipeleft
+```javascript
+data : {
+  x: x-position of tap,
+  y: y-position of tap,
+  direction.radians: direction of swipe in radians,
+  direction.degrees: direction of swipe in degrees,
+  distance.x: distance of swipe in pixels along the x axis,
+  distance.y: distance of swipe in pixels along the y axis
+}
+```
 
 ### hold
+```javascript
+data : {
+  x: x-position where hold was initiated,
+  y: y-position where hold was initiated,
+}
+```
+### drag
+#### fired when item is being held, and target is moving (touchmove, mousemove) 
 
-+ el.addEventListener('hold', doSomething(data));
-   + data contents:
-      + `.x`, `.y` - position where event occurred
-      + `.holdElement` - the element that's being held.
+```javascript
+data : {
+  x: x-position of cursor,
+  y: y-position of cursor,
+}
+```
 
 ### holdrelease
-
-+ el.addEventListener('holdrelease', doSomething(data));
-   + data contents:
-      + `.x`, `.y` - position where event occurred
-      + `.holdElement` - the element that's being released.
-      + `.originalX`, `.originalY` the original coordinates of the element being released.
+```javascript
+data : {
+  originalX: x-position where hold was initiated,
+  originalY: y-position where hold was initiated,
+  lastX: x-position where hold was ended,
+  lastY: y-position where hold was ended
+}
+```
