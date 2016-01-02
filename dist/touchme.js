@@ -203,7 +203,7 @@ var touchme = function(args) {
           triggerEvent(holdElement.target, 'drag', {
             x: currentX,
             y: currentY
-          })
+          });
         }
     });
 
