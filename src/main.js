@@ -36,7 +36,8 @@ var touchme = function(args) {
         currentX, currentY,
         oldX, oldY,
         holdElement, isHolding,
-        originalX, originalY; //for elements that are being held
+        originalX, originalY, //for elements that are being held
+        holdInterval, lastX, lastY; //cursor tracking while holding
 
     //where args is an object that can replace any of the default arguments
     var defaults = {
@@ -50,7 +51,6 @@ var touchme = function(args) {
         nTap: false
     };
     //replace any object that belongs in the defaults
-    //TODO: a prettier way to write this?
     if(args){
         for(var key in args){
             if (args.hasOwnProperty(key) && defaults.hasOwnProperty(key)) {
@@ -166,14 +166,21 @@ var touchme = function(args) {
                 if( isInTapLimits() && touchStart){
                     //user is within the tap region and is still after hold threshold
                     isHolding = true;
+                    //set the hold interval, every 50ms update the hold elements lastXY
+                    holdInterval = setInterval(function(){
+                      lastX = currentX;
+                      lastY = currentY;
+                    },50);
                     //we'll reference this when the user let's go
                     holdElement = e;
                     originalX = holdElement.pageX;
                     originalY = holdElement.pageY;
 
+
                     triggerEvent(holdElement.target, 'hold', {
-                        //having a difficult time deciding actually how to deal with this at the moment
-                        holdElement: holdElement
+                        holdElement: holdElement,
+                        x: lastX,
+                        y: lastY
                     });
                     tapNumber = 0;
                 }
@@ -187,6 +194,10 @@ var touchme = function(args) {
         var pointer = getPointer(e);
         currentX = pointer.pageX;
         currentY = pointer.pageY;
+        //is the user is holding an item, it's being dragged
+        if(isHolding){
+          //we'll come back here
+        }
     });
 
     /*
@@ -204,7 +215,9 @@ var touchme = function(args) {
             triggerEvent(holdElement.target, 'holdrelease', {
                 holdElement: holdElement,
                 originalX: originalX,
-                originalY: originalY
+                originalY: originalY,
+                lastX: lastX,
+                lastY: lastY
             });
         }
     });

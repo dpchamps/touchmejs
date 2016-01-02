@@ -91,6 +91,3 @@ ___
       + `.x`, `.y` - position where event occurred
       + `.holdElement` - the element that's being released.
       + `.originalX`, `.originalY` the original coordinates of the element being released.
-
-
-##Coming soon
