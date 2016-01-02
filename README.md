@@ -87,3 +87,7 @@ data : {
   lastY: y-position where hold was ended
 }
 ```
+
+### Things upcoming
+- [ ] pinch gesture
+- [ ] phantomJS tests
