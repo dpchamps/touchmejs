@@ -88,6 +88,33 @@ data : {
 }
 ```
 
+### pinch
+#### binds to touch move, though an initial 'pinchState' is recorded if two touches are detected, the pinch event only fires when the user is moving, based on the resolution given in the defaults
+```javascript
+data : {
+  initialPinch  :{
+    distance : the distance between two touches of initial pinch,
+    'touch0' : {
+      x: x-coord of first touch,
+      y: y-coord of first touch,
+    },
+    'touch1' : {
+      x: x-coord of second touch
+    }
+  },
+  touchPoints : {
+    distance : the distance between the moved pinch gesture,
+    'touch0' : {
+      x: x-coord of first touch,
+      y: y-coord of first touch,
+    },
+    'touch1' : {
+      x: x-coord of second touch
+    }
+  },
+  distance : the distance between the moved pinch gesture, for easy access
+  midpoint : the midpoint between the moved pinch gesture
+```
 ### Things upcoming
-- [ ] pinch gesture
+- [ x ] pinch gesture
 - [ ] phantomJS tests
