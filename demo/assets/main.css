@@ -13,9 +13,27 @@
   cursor: pointer;
 }
 .holding{
-  box-shadow: 0px 0px 2px 4px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.35);
   cursor: move !important;
 }
+.block{
+  position: absolute;
+  top:0;
+  left:0;
+  height:10px;
+  width:10px;
+  border-radius: 50%;
+}
+#midpoint-block{
+  background-color: red;
+}
+#touch1-block{
+  background-color: blueviolet;
+}
+#touch2-block{
+  background-color: hotpink;
+}
+
 /* === resets === */
 
 /* === defaults === */

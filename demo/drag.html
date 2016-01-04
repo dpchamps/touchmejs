@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
     <title>Drag and Drop</title>
     <link rel="stylesheet" href="./assets/normalize.css" />
     <link rel="stylesheet" href="./assets/main.css" />
@@ -11,15 +12,7 @@
 </body>
 <script src="./../dist/touchme.js"></script>
 <script>
-  document.addEventListener('touchstart', function(e){
-    e.preventDefault();
-  });
-  document.addEventListener('touchend', function(e){
-    e.preventDefault();
-  });
-  document.addEventListener('touchmove', function(e){
-    e.preventDefault();
-  });
+
   //default args
   var touch = touchme({
     'holdThreshold' : 100
@@ -27,7 +20,6 @@
   var dragBox = document.getElementById('dragbox');
   dragBox.addEventListener('hold', function(e){
     dragBox.classList.add('holding')
-    console.log(e);
   });
   dragBox.addEventListener('drag', function(e){
     var rect = dragBox.getBoundingClientRect(),

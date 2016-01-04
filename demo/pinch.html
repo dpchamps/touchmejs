@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Pinch Demo</title>
+    <link rel="stylesheet" href="./assets/normalize.css" />
+    <link rel="stylesheet" href="./assets/main.css" />
+</head>
+<body>
+<h1>try and pinch</h1>
+<span id="midpoint-block" class="block"></span>
+<span id="touch1-block" class="block"></span>
+<span id="touch2-block" class="block"></span>
+<script src="./../dist/touchme.js"></script>
+<script>
+  touchme();
+  document.addEventListener('touchmove', function(e){
+    e.preventDefault();
+  });
+  var el = function(sel){
+    return document.getElementById(sel);
+  };
+  var mpblock = el('midpoint-block'),
+      blockoffset = mpblock.getBoundingClientRect().width/ 2,
+      tblk1 = el('touch1-block'),
+      tblk2 = el('touch2-block');
+  document.addEventListener('pinch', function(e){
+    console.log(e.distance);
+    mpblock.style.top = (e.midPoint.y-blockoffset)+"px";
+    mpblock.style.left = (e.midPoint.x-blockoffset)+"px";
+    tblk1.style.top = (e.touchPoints['touch0'].y-blockoffset)+"px";
+    tblk1.style.left = (e.touchPoints['touch0'].x-blockoffset)+"px";
+    tblk2.style.top = (e.touchPoints['touch1'].y-blockoffset)+"px";
+    tblk2.style.left = (e.touchPoints['touch1'].x-blockoffset)+"px";
+  });
+</script>
+</body>
+</html>
