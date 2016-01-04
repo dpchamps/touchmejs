@@ -116,5 +116,5 @@ data : {
   midpoint : the midpoint between the moved pinch gesture
 ```
 ### Things upcoming
-- [ x ] pinch gesture
+- [x] pinch gesture
 - [ ] phantomJS tests
