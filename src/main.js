@@ -248,7 +248,7 @@ var touchme = function(args) {
           initialPinch['distance'] = getDistance( initialPinch['touch0'].x,
                                                 initialPinch['touch1'].x,
                                                 initialPinch['touch0'].y,
-                                                initialPinch['touch1'].x);
+                                                initialPinch['touch1'].y);
         }
     });
 

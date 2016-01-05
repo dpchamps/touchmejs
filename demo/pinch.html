@@ -26,7 +26,6 @@
       tblk1 = el('touch1-block'),
       tblk2 = el('touch2-block');
   document.addEventListener('pinch', function(e){
-    console.log(e);
     mpblock.style.top = (e.midPoint.y-blockoffset)+"px";
     mpblock.style.left = (e.midPoint.x-blockoffset)+"px";
     tblk1.style.top = (e.touchPoints['touch0'].y-blockoffset)+"px";
