@@ -117,4 +117,5 @@ data : {
 ```
 ### Things upcoming
 - [x] pinch gesture
+- [ ] implement a 'multiple hold' function for dragging and dropping multiple items simultaneously
 - [ ] phantomJS tests
