@@ -218,29 +218,32 @@ var touchme = function(args) {
                 }
             }, defaults.tapThreshold);
 
-            //initialize holdTimer
             clearTimeout(holdTimer);
-            holdTimer = setTimeout(function(){
+            //if the user is already holding, do not initialize another hold. as it is, this causes bugs with multiple
+            // touch events. However, TODO: implement a 'multiple hold' event, to allow for multiple drag-and-drop
+            if(!isHolding){
+              holdTimer = setTimeout(function(){
                 if( isInTapLimits() && touchStart){
-                    //user is within the tap region and is still after hold threshold
-                    isHolding = true;
-                    //set the hold interval, every 50ms update the hold elements lastXY
-                    holdInterval = setInterval(function(){
-                      lastX = currentX;
-                      lastY = currentY;
-                    },50);
-                    //we'll reference this when the user let's go
-                    holdElement = e;
-                    originalX = holdElement.pageX;
-                    originalY = holdElement.pageY;
+                  //user is within the tap region and is still after hold threshold
+                  isHolding = true;
+                  //set the hold interval, every 50ms update the hold elements lastXY
+                  holdInterval = setInterval(function(){
+                    lastX = currentX;
+                    lastY = currentY;
+                  },50);
+                  //we'll reference this when the user let's go
+                  holdElement = e;
+                  originalX = holdElement.pageX;
+                  originalY = holdElement.pageY;
 
-                    triggerEvent(holdElement.target, 'hold', {
-                        x: currentX,
-                        y: currentY
-                    });
-                    tapNumber = 0;
+                  triggerEvent(holdElement.target, 'hold', {
+                    x: currentX,
+                    y: currentY
+                  });
+                  tapNumber = 0;
                 }
-            }, defaults.holdThreshold);
+              }, defaults.holdThreshold);
+            }
         }
         //here we set the initial pinch to compare distances
         if(isPinch(e)){
