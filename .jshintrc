@@ -11,5 +11,6 @@
     "strict": true,
     "trailing": true,
     "sub" : true,
-    "smarttabs": true
+    "smarttabs": true,
+    "laxbreak" : true
 }
